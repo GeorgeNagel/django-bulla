@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class MusaConfig(AppConfig):
+class BullaConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "django_bulla"
     label = "bulla"
