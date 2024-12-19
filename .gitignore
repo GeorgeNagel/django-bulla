@@ -4,3 +4,9 @@ django_bulla.egg-info
 
 # OSX Folder files
 *.DS_Store
+
+# Python virtualenv
+venv
+
+# Python cache files
+*__pycache__

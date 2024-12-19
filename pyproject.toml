@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "django-bulla"
 version = "0.1"
 dependencies = [
-    "django>=5.0",  # Replace "X.Y" as appropriate
+    "django>=5.0",
 ]
 description = "A Django app to add support for double-entry bookkeeping."
 readme = "README.rst"

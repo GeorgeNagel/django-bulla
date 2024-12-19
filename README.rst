@@ -27,4 +27,27 @@ Development
     python -m pip install build
 
 2. Install requirements.
-    (venv) pip install -r requirements.txt
+    (venv) pip install -r requirements_dev.txt
+
+3. Run tests
+    (venv) python manage.py test
+
+Build
+-----
+
+1. Delete previous build artifacts
+
+    rm -rf dist
+    rm -rf django_bulla.egg-info
+
+1. Build the distribution artifacts
+
+    python -m build
+
+
+Roadmap
+-------
+
+1. Configurable database optimizations (e.g. Postgres)
+2. Configurable transaction immutability
+3. Configurable negative balance prevention
