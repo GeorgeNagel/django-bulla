@@ -15,14 +15,14 @@ class TransactionWithDebitAndCredit(factory.django.DjangoModelFactory):
     created = factory.lazy_attribute(lambda obj: timezone.now())
     debit = factory.RelatedFactory(
         "django_bulla.tests.factories.transaction_leg.TransactionLegFactory",
-        factory_related_name="transaction_leg",
+        factory_related_name="transaction",
         normal=Normals.DEBIT,
         amount=factory.SelfAttribute("..amount"),
         created=factory.SelfAttribute("..created"),
     )
     credit = factory.RelatedFactory(
         "django_bulla.tests.factories.transaction_leg.TransactionLegFactory",
-        factory_related_name="transaction_leg",
+        factory_related_name="transaction",
         normal=Normals.CREDIT,
         amount=factory.SelfAttribute("..amount"),
         created=factory.SelfAttribute("..created"),

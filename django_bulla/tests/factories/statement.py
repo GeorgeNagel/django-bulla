@@ -10,4 +10,4 @@ class StatementFactory(factory.django.DjangoModelFactory):
 
     balance = 0
     account = factory.SubFactory(AccountFactory)
-    date_close = factory.lazy_attribute(lambda obj: timezone.now())
+    date_closed = factory.lazy_attribute(lambda obj: timezone.now())
