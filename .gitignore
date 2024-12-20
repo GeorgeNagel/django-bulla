@@ -1,6 +1,7 @@
 # Build files
 dist
 django_bulla.egg-info
+docs-dist
 
 # OSX Folder files
 *.DS_Store
