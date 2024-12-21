@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from django_bulla.models.account import Account
+from test_app.models import Account
 from django_bulla.models.normals import Normals
 
 

@@ -3,8 +3,8 @@ from django.test import TestCase
 
 from django_bulla.models.transaction_leg import TransactionLeg
 from django_bulla.models.normals import Normals
-from django_bulla.tests.factories.account import AccountFactory
-from django_bulla.tests.factories.transaction import TransactionFactory
+from test_app.tests.factories.account import AccountFactory
+from test_app.tests.factories.transaction import TransactionFactory
 
 
 class TestTransactionLeg(TestCase):

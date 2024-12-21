@@ -9,7 +9,7 @@
 project = "django-bulla"
 copyright = "2024, George Nagel"
 author = "George Nagel"
-release = "0.2"
+release = "0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -1,11 +1,13 @@
+from django.apps import apps
+from django.conf import settings
 from django.contrib.postgres.functions import TransactionNow
 from django.core.exceptions import ValidationError
 from django.db import models, transaction as db_tx
 from django.db.models import F
 from django.db.models.functions import Now
 
+
 from django_bulla.models.normals import Normals
-from django_bulla.models.account import Account
 from django_bulla.models.mixins import IdentifiableMixin
 
 
@@ -20,6 +22,8 @@ class TransactionManager(models.Manager):
         if not isinstance(transaction_legs, list):
             raise ValidationError("Must provide a list of TransactionLegs")
 
+        AccountModel = apps.get_model(settings.DJANGO_BULLA_ACCOUNT_MODEL)
+
         credits = 0
         debits = 0
         for transaction_leg in transaction_legs:
@@ -33,10 +37,11 @@ class TransactionManager(models.Manager):
         account_ids = [
             transaction_leg.account_id for transaction_leg in transaction_legs
         ]
+        TransactionModel = apps.get_model(settings.DJANGO_BULLA_TRANSACTION_MODEL)
 
         with db_tx.atomic():
-            transaction = Transaction.objects.create(*args, **kwargs)
-            Account.objects.filter(id__in=account_ids).select_for_update()
+            transaction = TransactionModel.objects.create(*args, **kwargs)
+            AccountModel.objects.filter(id__in=account_ids).select_for_update()
             for transaction_leg in transaction_legs:
                 # Save the TransactionLeg models
                 transaction_leg.transaction = transaction
@@ -45,7 +50,7 @@ class TransactionManager(models.Manager):
                 # We can optimize the number of round-trip queries to Postgres
                 # by using atomic field updates if we don't care about potentially
                 # creating debit balances on credit-normal accounts and vice-versa
-                Account.objects.filter(id=transaction_leg.account_id).update(
+                AccountModel.objects.filter(id=transaction_leg.account_id).update(
                     balance=F("balance")
                     + transaction_leg.amount * transaction_leg.normal * F("normal")
                 )
@@ -53,7 +58,7 @@ class TransactionManager(models.Manager):
         return transaction
 
 
-class Transaction(IdentifiableMixin, models.Model):
+class AbstractTransaction(IdentifiableMixin, models.Model):
     """
     A collection of Credits and Debits
     """
@@ -62,3 +67,6 @@ class Transaction(IdentifiableMixin, models.Model):
 
     # Tracks when this record was inserted in the database
     created = models.DateTimeField(db_default=TransactionNow())
+
+    class Meta:
+        abstract = True

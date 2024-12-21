@@ -1,12 +1,12 @@
 from django.utils import timezone
 import factory
 
-from django_bulla.tests.factories.account import AccountFactory
+from test_app.tests.factories.account import AccountFactory
 
 
 class StatementFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "django_bulla.Statement"
+        model = "test_app.Statement"
 
     balance = 0
     account = factory.SubFactory(AccountFactory)

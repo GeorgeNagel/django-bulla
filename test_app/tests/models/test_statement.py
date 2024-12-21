@@ -2,11 +2,10 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils import timezone
 
-from django_bulla.models.statement import Statement
-from django_bulla.models.normals import Normals
-from django_bulla.models.transaction import Transaction
 from django_bulla.models.transaction_leg import TransactionLeg
-from django_bulla.tests.factories.account import AccountFactory
+from django_bulla.models.normals import Normals
+from test_app.models import Statement, Transaction
+from test_app.tests.factories.account import AccountFactory
 
 
 class TestStatement(TestCase):

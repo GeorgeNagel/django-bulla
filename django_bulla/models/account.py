@@ -6,7 +6,7 @@ from django_bulla.models.mixins import IdentifiableMixin
 from django_bulla.models.choices_max_length import max_length_from_choices
 
 
-class Account(IdentifiableMixin, models.Model):
+class AbstractAccount(IdentifiableMixin, models.Model):
     class AccountTypes:
         SYSTEM = "system"
         CHECKING = "checking"
@@ -39,3 +39,6 @@ class Account(IdentifiableMixin, models.Model):
     # django.contrib.postgres.functions.TransactionNow instead
     # for consistent created timestamps within a db transaction
     created = models.DateTimeField(db_default=Now())
+
+    class Meta:
+        abstract = True

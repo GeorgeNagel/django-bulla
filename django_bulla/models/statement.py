@@ -1,3 +1,5 @@
+from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Sum, F
@@ -13,8 +15,9 @@ class StatementManager(models.Manager):
         date_closed = kwargs.get("date_closed")
         account = kwargs.get("account")
         balance = kwargs.get("balance")
+        StatementModel = apps.get_model(settings.DJANGO_BULLA_STATEMENT_MODEL)
         previous_statement = (
-            Statement.objects.filter(account=account, date_closed__lt=date_closed)
+            StatementModel.objects.filter(account=account, date_closed__lt=date_closed)
             .order_by("-date_closed")
             .first()
         )
@@ -48,18 +51,20 @@ class StatementManager(models.Manager):
             )
 
         # Save Statement
-        statement = Statement(**kwargs)
+        statement = StatementModel(**kwargs)
         statement.save()
         return statement
 
 
-class Statement(IdentifiableMixin, models.Model):
+class AbstractStatement(IdentifiableMixin, models.Model):
     """
     Ties out the balance of an account on a particular date
     """
 
     # The account for which this statement was prepared
-    account = models.ForeignKey("django_bulla.Account", on_delete=models.DO_NOTHING)
+    account = models.ForeignKey(
+        settings.DJANGO_BULLA_ACCOUNT_MODEL, on_delete=models.DO_NOTHING
+    )
 
     # The date on which the balance of the Account was tied out
     date_closed = models.DateTimeField()
@@ -74,3 +79,6 @@ class Statement(IdentifiableMixin, models.Model):
     created = models.DateTimeField(db_default=Now())
 
     objects = StatementManager()
+
+    class Meta:
+        abstract = True
