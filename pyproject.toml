@@ -34,3 +34,6 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/GeorgeNagel/django-bulla"
+
+[tool.setuptools]
+packages = ["django_bulla"]
